@@ -71,8 +71,6 @@ class Fase(models.Model):
 
     def __str__(self):
         return 'Fase: ' + self.nombre_fase
-
-
 class RED(models.Model):
     codigo = models.CharField(max_length=50)
     nombre = models.CharField(max_length=200)
