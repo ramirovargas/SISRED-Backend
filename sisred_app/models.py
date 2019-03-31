@@ -92,6 +92,14 @@ class RED(models.Model):
     def __str__(self):
         return 'Red: ' + self.codigo
 
+    @property
+    def getFase(self):
+            return self.fase.nombre_fase
+
+    @property
+    def getProyecto(self):
+        return self.proyecto_conectate.nombre
+
 
 class SubproductoRED(models.Model):
     red = models.ForeignKey(RED, on_delete=models.CASCADE, related_name='subproductos_del_red')

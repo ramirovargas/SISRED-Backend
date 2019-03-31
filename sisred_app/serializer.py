@@ -32,9 +32,7 @@ class ProyectoSerializer(serializers.ModelSerializer):
         fields=('nombre','codigo')
 
 class REDSerializer(serializers.ModelSerializer):
-    fase = FaseSerializer(many=True, read_only=True)
-    proyecto_conectate = ProyectoSerializer(many=True, read_only=True)
 
     class Meta:
         model=RED
-        fields=('codigo','nombre','fecha_inicio','fecha_cierre','fecha_creacion','porcentaje_avance','tipo','proyecto_conectate','fase')
+        fields=('codigo','nombre','fecha_inicio','fecha_cierre','fecha_creacion','porcentaje_avance','tipo','fase','getFase','getProyecto','proyecto_conectate')
