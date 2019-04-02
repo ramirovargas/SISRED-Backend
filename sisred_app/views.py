@@ -76,15 +76,12 @@ def recurso_put(request):
 
 
 @api_view(['GET', 'POST'])
-def fase_byid(request):
+def fase_byid(request,id):
     if request.method == 'GET':
-        recurso = RED.objects.all()
-        serializer = REDSerializer(recurso, many=True)
+        red = RED.objects.filter(id=id)
+        if (red == None):
+            raise NotFound(detail="Error 404, recurso not found", code=404)
+        print(red)
+        serializer = REDSerializer(red, many=True)
         return Response(serializer.data)
 
-    elif request.method == 'POST':
-        serializer = REDSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
