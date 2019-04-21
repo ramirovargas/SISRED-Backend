@@ -15,7 +15,7 @@ class RecursoSerializer(serializers.ModelSerializer):
 class RecursoSerializer_post(serializers.ModelSerializer):
     class Meta:
         model=Recurso
-        fields=('nombre','archivo','thumbnail','tipo','descripcion','autor')
+        fields=('nombre','archivo','thumbnail','tipo','descripcion','autor','idRed')
 
 class RecursoSerializer_put(serializers.ModelSerializer):
     class Meta:
@@ -32,7 +32,10 @@ class ProyectoSerializer(serializers.ModelSerializer):
         fields=('nombre','codigo')
 
 class REDSerializer(serializers.ModelSerializer):
-
+    fase = MetadataSerializer(many=True, read_only=True)
     class Meta:
-        model=RED
-        fields=('codigo','nombre','fecha_inicio','fecha_cierre','fecha_creacion','porcentaje_avance','tipo','fase','getFase','getProyecto','proyecto_conectate')
+        model = RED
+        fields = ('id_conectate', 'nombre', 'nombre_corto', 'descripcion', 'fecha_inicio',
+                  'fecha_cierre', 'fecha_creacion', 'porcentaje_avance', 'tipo', 'solicitante', 'proyecto_conectate', 'horas_estimadas',
+                  'horas_trabajadas','fase')
+

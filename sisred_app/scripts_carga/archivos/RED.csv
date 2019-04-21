@@ -1,0 +1,7 @@
+id_conectate, nombre, nombre_corto, descripcion, fecha_inicio, fecha_cierre, fecha_creacion, porcentaje_avance, tipo, solicitante, horas_estimadas, horas_trabajadas, proyecto_conectate_id
+S0001, null, null, 1  video,2999-12-31, 2999-12-31,2999-12-31,0,Sin definir,PR0011(Sandra),0,0,2
+S0002, null, null, 1 infografia, 2019-12-31,2019-12-31,2019-12-31,0,Sin definir,PR0011(Sandra),0,0,3
+S0003, null, null, 1 asesoria de video, 2019-12-31,2019-12-31,2019-12-31,0,Sin definir,PR0011(Sandra),0, 0,4
+S0004, null, null, videoconferencia, 2019-12-31,2019-12-31,2019-12-31, 0, Sin definir, PR0011(Sandra),0,0,5
+S0005, null, null, 1 diseño de aula, 2019-12-31, 2019-12-31,2019-12-31, 0, Sin definir, PR0011(Sandra),0,0,6
+S0006, null, null, 1  video, 2019-12-31,2019-12-31,2019-12-31, 0, Sin definir, PR0011(Sandra),0,0,7

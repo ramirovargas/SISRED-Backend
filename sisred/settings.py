@@ -30,11 +30,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+CORS_ORIGIN_ALLOW_ALL=True
 
 # Application definition
 CORS_ORIGIN_ALLOW_ALL=True
 
 INSTALLED_APPS = [
+    'corsheaders',
     'sisred_app',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,7 +45,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -83,12 +84,8 @@ WSGI_APPLICATION = 'sisred.wsgi.application'
 
 DATABASES = {
     'default': {
-    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    'NAME': 'd4nmb4h979bfuv',
-    'USER': 'nrovknnzaoaiox',
-    'PASSWORD' : '6e9cb880e418f59812aa7ce52074205e790c10042079aa98b016d2e308fbd103' ,
-    'HOST' : 'ec2-54-225-242-183.compute-1.amazonaws.com',
-    'PORT' : '5432' ,
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -127,6 +124,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
+#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+#STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
+
+django_heroku.settings(locals())
