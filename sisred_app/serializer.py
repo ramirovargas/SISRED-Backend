@@ -37,5 +37,5 @@ class REDSerializer(serializers.ModelSerializer):
         model = RED
         fields = ('id_conectate', 'nombre', 'nombre_corto', 'descripcion', 'fecha_inicio',
                   'fecha_cierre', 'fecha_creacion', 'porcentaje_avance', 'tipo', 'solicitante', 'proyecto_conectate', 'horas_estimadas',
-                  'horas_trabajadas','fase')
+                  'horas_trabajadas','fase','listo')
 

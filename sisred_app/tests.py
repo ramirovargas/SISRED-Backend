@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase, Client
 
 # Create your tests here.
-from sisred_app.models import Perfil
+from sisred_app.models import Perfil, RED
 
 
 class SisredTestCase(TestCase):
@@ -29,4 +29,15 @@ class SisredTestCase(TestCase):
         current_data = json.loads(response.content)
 
         self.assertEqual(current_data[0]['estado_sisred'], 1)
+
+    def test_update_ready_state_red(self):
+
+
+        red = RED.objects.create( id_conectate="S0001", nombre="null", nombre_corto="null", descripcion="1 video", fecha_inicio="2019-12-31", fecha_cierre="2019-12-31", fecha_creacion="2019-12-31", porcentaje_avance="0", tipo="Sin definir", solicitante="PR0011(Sandra)", horas_estimadas="0", horas_trabajadas="0", proyecto_conectate_id="1")
+
+        response = self.client.put('/api/habilitar-red/' + str(red.id_conectate))
+        current_data = json.loads(response.content)
+        print(current_data)
+
+        self.assertEqual(current_data[0]['listo'], True)
 

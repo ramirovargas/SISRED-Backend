@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.http import JsonResponse
-from sisred_app.models import RED, ProyectoRED, RolAsignado, Perfil, Metadata, Recurso, ProyectoConectate, HistorialEstados
+from sisred_app.models import RED, ProyectoRED, RolAsignado, Perfil, Metadata, Recurso, ProyectoConectate, HistorialFases
 from django.http import HttpResponse
 from django.core import serializers
 from django.contrib.auth.models import User
@@ -82,7 +82,7 @@ def get_detallered(request):
         url = 'conectatePrueba.com/'+nombreRed
         status = 'No tiene'
         nombreProject = red.proyecto_conectate.nombre
-        historiales = HistorialEstados.objects.filter(red=red.pk)
+        historiales = HistorialFases.objects.filter(red=red.pk)
 
         if len(historiales) > 1:
             ultimo = historiales[0]
