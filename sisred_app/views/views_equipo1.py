@@ -149,7 +149,7 @@ def usuarioPerfilJson(perfil, usuario):
 #Parametros:    id_conectate -> Id del RED
 #Descripcion:   Funcionalidad para actualizar cuando un RED esta listo para revision
 
-@api_view(['PUT'])
+@api_view(['GET','PUT'])
 def getREDByIdentification(request, id_conectate):
     reds=[]
     try:
@@ -170,6 +170,17 @@ def getREDByIdentification(request, id_conectate):
                     "proyecto_conectate_id": red.proyecto_conectate_id,
                     "listo": True})
         return Response(reds)
+
+    if request.method == 'GET':
+        return Response(makeReds(red))
+
+def makeReds(red):
+
+    reds = []
+
+    reds.append({"listo": red.listo})
+
+    return reds
       
 #Autor:         Alejandro Garcia
 #Fecha:         2019-04-17
