@@ -173,10 +173,31 @@ class Comentario(models.Model):
     version = models.ForeignKey(Version, on_delete=models.CASCADE, null=True, blank=True)
     recurso = models.ForeignKey(Recurso, on_delete=models.CASCADE, null=True, blank=True)
     usuario = models.ForeignKey(Perfil, on_delete=models.CASCADE)
+    fecha_creacion = models.DateField(default=datetime.date.today())
+    cerrado = models.BooleanField(default=False, blank=True)
 
     def __str__(self):
         return 'Comentario: ' + self.contenido
 
+class ComentarioMultimedia(models.Model):
+
+    x1 = models.DecimalField(blank=True, null=True, max_digits=12, decimal_places=2)
+    y1 = models.DecimalField(blank=True, null=True, max_digits=12, decimal_places=2)
+    x2 = models.DecimalField(blank=True, null=True, max_digits=12, decimal_places=2)
+    y2 = models.DecimalField(blank=True, null=True, max_digits=12, decimal_places=2)
+    comentario = models.ForeignKey(Comentario, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return 'x1: ' + str(self.x1) + ', y1: ' + str(self.x2) + ', x2: ' + str(self.x2) + ', y2: ' + str(self.y2)
+
+class ComentarioPDF (models.Model):
+
+    width = models.IntegerField(null=True, blank=True)
+    height = models.IntegerField(null=True, blank=True)
+    comentario_multimedia = models.ForeignKey(ComentarioMultimedia, on_delete=models.CASCADE)
+
+    def __srt__(self):
+        return 'height: ' + str(self.height) + ', width: ' + str(self.width)
 
 class Propiedad(models.Model):
     llave = models.CharField(max_length=200)
@@ -185,3 +206,5 @@ class Propiedad(models.Model):
 
     def __str__(self):
         return 'Llave: ' + self.llave + ', Valor: ' + self.valor
+
+
