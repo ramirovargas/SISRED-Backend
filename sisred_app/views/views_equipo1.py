@@ -208,7 +208,7 @@ def getAvanceRED(request, idRED):
 
     if request.method == 'GET':
         try:
-            red = RED.objects.get(id=idRed)
+            red = RED.objects.get(id=idRED)
             fecha = red.fecha_inicio
             primera_fecha = True
             proyecto_conectate = ProyectoConectate.objects.get(id=red.proyecto_conectate.id)
