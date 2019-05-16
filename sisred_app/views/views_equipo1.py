@@ -15,7 +15,7 @@ import datetime
 import requests
 
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK
-from sisred_app.models import Recurso, RED, Perfil, Fase, HistorialFases, Version, Comentario, ComentarioMultimedia
+from sisred_app.models import Recurso, RED, Perfil, Fase, HistorialFases, Version, Comentario, ComentarioMultimedia, ProyectoConectate
 from sisred_app.serializer import RecursoSerializer, RecursoSerializer_post, RecursoSerializer_put, \
      REDSerializer
 
@@ -202,7 +202,7 @@ def sincronizarFases(idRed, idActual, idFase):
 #Descripcion:   Funcionalidad para obtener el avance de un  RED
 
 @api_view(['GET','PUT'])
-def getAvanceRED(request, idRed):
+def getAvanceRED(request, idRED):
     fases=[]
     lista_fases=[]
 
@@ -211,15 +211,16 @@ def getAvanceRED(request, idRed):
             red = RED.objects.get(id=idRed)
             fecha = red.fecha_inicio
             primera_fecha = True
+            proyecto_conectate = ProyectoConectate.objects.get(id=red.proyecto_conectate.id)
         except RED.DoesNotExist:
             raise NotFound(detail="Error 404, RED not found", code=404)
 
-        lista_fases = HistorialFases.objects.filter(red=idRed)
+        lista_fases = HistorialFases.objects.filter(red=idRED)
         lista_fases.order_by('fecha_cambio')
         tamaño = lista_fases.__len__()
         count = 0
         for fase in lista_fases:
-            fs = Fase.objects.get(id=fase.fase)
+            fs = Fase.objects.get(id=fase.id)
             fecha_final = "null"
             fecha_inicial = fase.fecha_cambio
             if(count+1<tamaño):
@@ -227,5 +228,5 @@ def getAvanceRED(request, idRed):
             fases.append({"fase": fs.nombre_fase, "fechaInicio": fecha_inicial, "fechaFinal": fecha_final, "comentario": fase.comentario})
             count=count+1
 
-        jsonObject ={"id": red.id,"nombre": red.nombre, "fases":fases}
+        jsonObject ={"id": red.id,"nombre": red.nombre, "proyecto": proyecto_conectate.nombre, "fases":fases}
         return Response(jsonObject)

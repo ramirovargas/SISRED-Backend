@@ -1246,25 +1246,58 @@ class SisredTestCase(TestCase):
 class verAvanceTestCase(TestCase):
 
     def test_get_avance_red_sin_fases(self):
+        fecha_inicio = datetime.datetime.strptime("2018-03-11", "%Y-%m-%d").date()
+        fecha_fin = datetime.datetime.strptime("2018-03-11", "%Y-%m-%d").date()
+        proyectto_conectate = ProyectoConectate.objects.create(id_conectate='1', nombre='prueba',
+                                                               codigo='prueba', fecha_inicio=fecha_inicio,
+                                                               fecha_fin=fecha_fin)
         red = RED.objects.create(id_conectate="S0001", nombre="null", nombre_corto="null", descripcion="1 video",
                                  fecha_inicio="2019-12-31", fecha_cierre="2019-12-31", fecha_creacion="2019-12-31",
                                  porcentaje_avance="0", tipo="Sin definir", solicitante="PR0011(Sandra)",
-                                 horas_estimadas="0", horas_trabajadas="0", proyecto_conectate_id="1")
+                                 horas_estimadas="0", horas_trabajadas="0", proyecto_conectate_id=proyectto_conectate.id)
 
         response = self.client.get('/api/getAvanceRED/'+ str(red.id))
         current_data = json.loads(response.content)
         print(current_data)
 
-        self.assertEqual(current_data[0]['nombre'], red.nombre)
+        self.assertEqual(current_data['nombre'], red.nombre)
 
     def test_get_avance_red_con_fases(self):
-        red = RED.objects.create(id_conectate="S0001", nombre="null", nombre_corto="null", descripcion="1 video",
-                                 fecha_inicio="2019-12-31", fecha_cierre="2019-12-31", fecha_creacion="2019-12-31",
-                                 porcentaje_avance="0", tipo="Sin definir", solicitante="PR0011(Sandra)",
-                                 horas_estimadas="0", horas_trabajadas="0", proyecto_conectate_id="1")
+        proyecto_conectate = ProyectoConectate.objects.create(id_conectate='2', nombre='namepy',
+                                                              nombre_corto='nameShort',
+                                                              codigo='code', fecha_inicio='1999-12-19',
+                                                              fecha_fin='2001-12-20')
+        fase = Fase.objects.create(
+            id_conectate=proyecto_conectate.id_conectate,
+            nombre_fase='produccion',
+        )
+        fase2 = Fase.objects.create(
+            id_conectate=proyecto_conectate.id_conectate,
+            nombre_fase='preproduccion',
+        )
+
+        red = RED.objects.create(
+            id_conectate='1',
+            nombre='nombre',
+            nombre_corto='nombre_corto',
+            descripcion='descripcion',
+            fecha_inicio=None,
+            fecha_cierre=None,
+            porcentaje_avance=50,
+            tipo='tipo',
+            solicitante='solicitante',
+            proyecto_conectate=proyecto_conectate,
+            horas_estimadas=8,
+            horas_trabajadas=7,
+            fase=fase,
+        )
+
+        historial1 = HistorialFases.objects.create(fase=fase, red=red, comentario="Cambio de prueba")
+        historial2 = HistorialFases.objects.create(fase=fase2, red=red, comentario="Cambio de prueba 2")
 
         response = self.client.get('/api/getAvanceRED/'+ str(red.id))
         current_data = json.loads(response.content)
         print(current_data)
 
-        self.assertEqual(current_data[0]['nombre'], red.nombre)
+        self.assertEqual(current_data['fases'][0]['comentario'], historial2.comentario)
+        self.assertEqual(current_data['fases'][1]['comentario'], historial1.comentario)
