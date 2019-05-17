@@ -34,6 +34,7 @@ urlpatterns = [
     path('versiones/<int:id>/recursos/', views_equipo2.getVerVersionR),
     path('reds/<int:id>/versiones/', views_equipo2.getVersionesRED),
     path('versiones/<int:id>/marcar', views_equipo2.marcarVersion, name='marcarVersion'),
+    path('version-lista/<int:id>/marcar', views_equipo1.marcarVersionLista, name='marcarVersion'),
     path('buscarReds/<int:idUsuario>/', views_equipo2.buscarRed, name='reds'),
     path('versiones/', views_equipo2.versiones, name='versiones'),
     path('versiones/<int:id_v>/recursos/<int:id_r>/comentarios/', views_equipo2.comentarioExistente, name='comentarioExistente'),
