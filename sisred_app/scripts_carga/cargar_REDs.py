@@ -8,7 +8,7 @@ from sisred_app.models import RED
 import datetime
 
 # Metodo para cargar los REDs desde los archivos planos
-with open('./archivos/reds.csv') as csv_file:
+with open('./archivos/reds.csv', encoding='utf-8') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     line_count = 0
     for row in csv_reader:

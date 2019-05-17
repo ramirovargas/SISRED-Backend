@@ -107,7 +107,6 @@ class RED(models.Model):
     metadata = models.ManyToManyField(Metadata, blank=True)
     horas_estimadas = models.IntegerField(blank=True, null=True)
     horas_trabajadas = models.IntegerField(blank=True, null=True)
-    listo_para_revision = models.BooleanField(default=False, blank=True)
     fase = models.ForeignKey(Fase, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
@@ -151,6 +150,7 @@ class HistorialFases(models.Model):
 
 class Version(models.Model):
     es_final = models.BooleanField(default=False)
+    es_lista = models.BooleanField(default=False)
     numero = models.IntegerField()
     imagen = models.CharField(max_length=200, null=True)
     archivos = models.CharField(max_length=200)

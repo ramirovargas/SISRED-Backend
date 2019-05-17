@@ -3,7 +3,8 @@ import json
 from django.contrib.auth.models import User
 from django.db.models.query import QuerySet
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponseBadRequest, HttpResponse
+from django.http import HttpResponseBadRequest, HttpResponse, JsonResponse, HttpResponseNotFound
+from django.shortcuts import get_object_or_404, get_list_or_404
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import  status
 from rest_framework.decorators import api_view
@@ -196,6 +197,26 @@ def sincronizarFases(idRed, idActual, idFase):
 
     return Response(response)
 
+
+#Autor:         Ramiro Vargas
+#Fecha:         2019-05-13
+#Parametros:    idVersion -> Id dVersion PyS
+
+#Descripcion:   Funcionalidad para marcar version
+@csrf_exempt
+def marcarVersionLista(request,id):
+    if request.method == 'POST':
+        version = get_object_or_404(Version, id=id)
+
+        otherVersions = get_list_or_404(Version, red_id = version.red_id)
+        for v in otherVersions:
+            v.es_lista=False
+            v.save()
+
+        version.es_lista = True
+        version.save()
+        return JsonResponse(str(id), safe=False)
+    return HttpResponseNotFound()
 #Autor:         Alejandro Garcia
 #Fecha:         2019-05-08
 #Parametros:    idRed -> Id del RED
