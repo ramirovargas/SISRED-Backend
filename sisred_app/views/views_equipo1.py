@@ -226,6 +226,7 @@ def marcarVersionLista(request,id):
 def getAvanceRED(request, idRED):
     fases=[]
     lista_fases=[]
+    recursos = []
 
     if request.method == 'GET':
         try:
@@ -238,6 +239,10 @@ def getAvanceRED(request, idRED):
 
         lista_fases = HistorialFases.objects.filter(red=idRED)
         lista_fases.order_by('fecha_cambio')
+        recursos = red.recursos.all()
+        recursos.order_by('-fecha_creacion')
+        ultimoRecurso = recursos[0]
+        uhmodificacion = ultimoRecurso.fecha_creacion
         tamaño = lista_fases.__len__()
         count = 0
         for fase in lista_fases:
@@ -249,5 +254,5 @@ def getAvanceRED(request, idRED):
             fases.append({"fase": fs.nombre_fase, "fechaInicio": fecha_inicial, "fechaFinal": fecha_final, "comentario": fase.comentario})
             count=count+1
 
-        jsonObject ={"id": red.id,"nombre": red.nombre, "proyecto": proyecto_conectate.nombre, "fases":fases}
+        jsonObject ={"id": red.id,"nombre": red.nombre, "proyecto": proyecto_conectate.nombre, "uhmodificacion": uhmodificacion, "fases":fases}
         return Response(jsonObject)

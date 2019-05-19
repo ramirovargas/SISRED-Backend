@@ -1286,6 +1286,14 @@ class verAvanceTestCase(TestCase):
     def test_get_avance_red_sin_fases(self):
         fecha_inicio = datetime.datetime.strptime("2018-03-11", "%Y-%m-%d").date()
         fecha_fin = datetime.datetime.strptime("2018-03-11", "%Y-%m-%d").date()
+        user = User.objects.create(username='user1', password='1234ABC', first_name='nombre1',
+                                   last_name='apellido1', email='user@uniandes.edu.co')
+
+        perfil = Perfil.objects.create(id_conectate='1', usuario=user, tipo_identificacion='CC',
+                                       numero_identificacion='1234', estado=1)
+
+        r1 = Recurso.objects.create(nombre="mi recurso", archivo="c:/miArchivo.txt", thumbnail="c:/miArchivo.txt",
+                                    tipo="txt", descripcion="", autor=perfil, usuario_ultima_modificacion=perfil)
         proyectto_conectate = ProyectoConectate.objects.create(id_conectate='1', nombre='prueba',
                                                                codigo='prueba', fecha_inicio=fecha_inicio,
                                                                fecha_fin=fecha_fin)
@@ -1293,6 +1301,7 @@ class verAvanceTestCase(TestCase):
                                  fecha_inicio="2019-12-31", fecha_cierre="2019-12-31", fecha_creacion="2019-12-31",
                                  porcentaje_avance="0", tipo="Sin definir", solicitante="PR0011(Sandra)",
                                  horas_estimadas="0", horas_trabajadas="0", proyecto_conectate_id=proyectto_conectate.id)
+        red.recursos.add(r1)
 
         response = self.client.get('/api/getAvanceRED/'+ str(red.id))
         current_data = json.loads(response.content)
@@ -1313,6 +1322,14 @@ class verAvanceTestCase(TestCase):
             id_conectate=proyecto_conectate.id_conectate,
             nombre_fase='preproduccion',
         )
+        user = User.objects.create(username='user1', password='1234ABC', first_name='nombre1',
+                                   last_name='apellido1', email='user@uniandes.edu.co')
+
+        perfil = Perfil.objects.create(id_conectate='1', usuario=user, tipo_identificacion='CC',
+                                       numero_identificacion='1234', estado=1)
+
+        r1 = Recurso.objects.create(nombre="mi recurso", archivo="c:/miArchivo.txt", thumbnail="c:/miArchivo.txt",
+                                    tipo="txt", descripcion="", autor=perfil, usuario_ultima_modificacion=perfil)
 
         red = RED.objects.create(
             id_conectate='1',
@@ -1329,6 +1346,9 @@ class verAvanceTestCase(TestCase):
             horas_trabajadas=7,
             fase=fase,
         )
+
+        red.recursos.add(r1)
+
 
         historial1 = HistorialFases.objects.create(fase=fase, red=red, comentario="Cambio de prueba")
         historial2 = HistorialFases.objects.create(fase=fase2, red=red, comentario="Cambio de prueba 2")
