@@ -86,8 +86,12 @@ WSGI_APPLICATION = 'sisred.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    'NAME': 'd4nmb4h979bfuv',
+    'USER': 'nrovknnzaoaiox',
+    'PASSWORD' : '6e9cb880e418f59812aa7ce52074205e790c10042079aa98b016d2e308fbd103' ,
+    'HOST' : 'ec2-54-225-242-183.compute-1.amazonaws.com',
+    'PORT' : '5432' ,
     }
 }
 
